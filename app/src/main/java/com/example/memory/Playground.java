@@ -7,7 +7,6 @@ public class Playground {
 
     private Card[][] cards;
     private int whosOnTurn;
-    int testasdf;
     private int[] score;
 
     public Playground(int x, int y)
