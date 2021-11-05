@@ -1,8 +1,14 @@
 package com.example.memory;
 
+import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.LinearLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Arrays;
 
-public class Playground {
+public class Playground extends AppCompatActivity {
 
 
     private Card[][] cards;
@@ -12,7 +18,10 @@ public class Playground {
     public Playground(int x, int y)
     {
 
+
     }
+
+
 
     public void init()
     {
