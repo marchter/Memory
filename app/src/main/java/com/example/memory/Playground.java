@@ -1,12 +1,17 @@
 package com.example.memory;
 
+import android.util.Log;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.Arrays;
+
+import javax.sql.ConnectionPoolDataSource;
 
 public class Playground extends AppCompatActivity {
 
@@ -17,16 +22,27 @@ public class Playground extends AppCompatActivity {
 
     public Playground(int x, int y)
     {
-
+        init(x,y);
 
     }
 
 
 
-    public void init()
+    public void init(int nrCols, int nrRows)
     {
 
+        createPairs(nrCols,nrRows);
+
     }
+
+    private void createPairs(int nrCols, int nrRows)
+    {
+
+        //TODO pärchen setzten
+
+    }
+
+
 
     public Card play(Position pos)
     {

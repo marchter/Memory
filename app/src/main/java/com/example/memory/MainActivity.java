@@ -4,14 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Point;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -23,61 +21,68 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static int[] pics;
     private Playground field;
     private Position previouseCard;
-    private ImageButton[][] buttons;
+
+    int nrCols = 3;
+    int nrRows = 2;
+
+    private ImageButton[][] buttons = new ImageButton[nrCols+1][nrRows+1];
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        generateGrid(4,4);
+        generateGrid(nrCols,nrRows);
+        field = new Playground(nrCols,nrRows);
 
     }
 
 
+    private TableRow generateAndAddRows(int row,int nrCols)
+    {
+
+        TableRow.LayoutParams tableRowParams= new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.MATCH_PARENT);
+        TableRow tr = new TableRow(this);
+
+            for (int i = 1; i <= nrCols; i++) {
+
+                tr.setLayoutParams(tableRowParams);
+                Position p = new Position(i,row);
+                ImageButton button = generateButton(p);
+                buttons[p.x][p.y] = button;
+
+                tr.addView(button);
+
+            }
+        return tr;
+    }
 
     private void generateGrid(int nrCols, int nrRows)
     {
+        TableLayout playField = findViewById(R.id.cardTable);
 
-        TableLayout table = findViewById(R.id.cardTable);
-
-        for (int i = 1; i <= nrRows;i++)
+        for (int i = 1; i <= nrRows; i++)
         {
-            TableRow row = new TableRow(this);
-            for (int j = 1; j <= nrCols; j++)
-            {
-                Button b = new Button(this);
-                b.setGravity(Gravity.CENTER_HORIZONTAL);
-                b.setTag(new Point(i,j));
-                b.setText(String.format("(%d,%d)", i,j));
-                b.setOnClickListener((View.OnClickListener) this);
-                row.addView(b);
-            }
-            table.addView(row);
+            TableRow tr = generateAndAddRows(i,nrCols);
+            playField.addView(tr);
         }
-
-
     }
 
 
-
-    private void generateAndAddRows(int row, int nrCols)
-    {
-
-    }
-
-
-    private ImageButton generateButton(Position pos)
+    private ImageButton generateButton(Position p)
     {
         ImageButton b = new ImageButton(this);
-        b.setImageResource(R.drawable.i000);
-        b.setTag(pos);
+        b.setImageResource(R.drawable.back);
+        String tag = p.x+","+p.y;
+        b.setTag(tag);
         b.setOnClickListener(this);
         return b;
     }
 
 
-    public static int[] getPicsArray() {
+    private static int[] getPicsArray() {
         int[] c = new int[20];
 
         c[0] = R.drawable.i000;
@@ -106,8 +111,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void onClick(View view)
     {
-        Point p = (Point)view.getTag();
-        String pStr = p.x + " , " + p.y;
+
+        String tag = (String) view.getTag();
+        Snackbar snackbar = Snackbar.make(view, "Card "+tag+" is clicked", Snackbar.LENGTH_LONG);
+
+        snackbar.show();
 
     }
 
@@ -119,8 +127,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void run() {
                 runOnUiThread(() -> {
-                    buttons[pos1.y][pos1.x].setImageResource(R.drawable.back);
-                    buttons[pos2.y][pos2.x].setImageResource(R.drawable.back);
+                    buttons[pos1.x][pos1.y].setImageResource(R.drawable.back);
+                    buttons[pos2.x][pos2.y].setImageResource(R.drawable.back);
                 });
             }
         }
