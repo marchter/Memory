@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <androidx.gridlayout.widget.GridLayout
-        android:id="@+id/cardGrid"
+    <TableLayout
+        android:id="@+id/cardTable"
         android:layout_width="409dp"
         android:layout_height="729dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -15,5 +15,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </androidx.gridlayout.widget.GridLayout>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </TableLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

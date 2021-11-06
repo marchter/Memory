@@ -2,17 +2,23 @@ package com.example.memory;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MemoryActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static int[] pics;
     private Playground field;
@@ -24,7 +30,7 @@ public class MemoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        generateGrid(5,4);
+        generateGrid(4,4);
 
     }
 
@@ -33,9 +39,22 @@ public class MemoryActivity extends AppCompatActivity {
     private void generateGrid(int nrCols, int nrRows)
     {
 
-        GridLayout gridLayout = (GridLayout)findViewById(R.id.cardGrid);
-        gridLayout.setColumnCount(nrCols);
-        gridLayout.setRowCount(nrRows);
+        TableLayout table = findViewById(R.id.cardTable);
+
+        for (int i = 1; i <= nrRows;i++)
+        {
+            TableRow row = new TableRow(this);
+            for (int j = 1; j <= nrCols; j++)
+            {
+                Button b = new Button(this);
+                b.setGravity(Gravity.CENTER_HORIZONTAL);
+                b.setTag(new Point(i,j));
+                b.setText(String.format("(%d,%d)", i,j));
+                b.setOnClickListener((View.OnClickListener) this);
+                row.addView(b);
+            }
+            table.addView(row);
+        }
 
 
     }
@@ -50,7 +69,11 @@ public class MemoryActivity extends AppCompatActivity {
 
     private ImageButton generateButton(Position pos)
     {
-        return null;
+        ImageButton b = new ImageButton(this);
+        b.setImageResource(R.drawable.i000);
+        b.setTag(pos);
+        b.setOnClickListener(this);
+        return b;
     }
 
 
@@ -83,6 +106,8 @@ public class MemoryActivity extends AppCompatActivity {
 
     public void onClick(View view)
     {
+        Point p = (Point)view.getTag();
+        String pStr = p.x + " , " + p.y;
 
     }
 
