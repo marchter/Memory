@@ -2,11 +2,14 @@ package com.example.memory;
 
 import android.util.Log;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
+import androidx.annotation.ContentView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 
 public class Playground extends AppCompatActivity {
@@ -29,11 +32,8 @@ public class Playground extends AppCompatActivity {
     public void init(int nrCols, int nrRows, ImageButton[][] buttons)
     {
 
-        for (int i = 0; i <(nrCols*nrRows); i+=2)
-        {
-           createPairs(nrCols+1,nrRows+1,buttons);
+           createPairs(nrCols,nrRows,buttons);
 
-        }
 
 
     }
@@ -43,66 +43,23 @@ public class Playground extends AppCompatActivity {
 
         /*
         TODO pärchen setzten
-        NOTE besser wärs mit Tag vom Button zu lösen  !!UMBEDINGT PROBIEREN
         */
 
-        int randomx1 = getRandomx(nrCols).get(0);
-        int randomy1 = getRandomy(nrRows).get(0);
-
-        int randomx2 = getRandomx(nrCols).get(1);
-        int randomy2 = getRandomy(nrRows).get(1);
 
 
-        if (buttons[randomx1][randomy1].getTag(R.id.pair).toString()!="set" && buttons[randomx2][randomy2].getTag(R.id.pair).toString()!="set")
+        Integer[] randomMat = new Integer[nrCols*nrRows];
+        for (int i = 0; i < nrCols*nrRows; i++)
         {
-            buttons[randomx1][randomy1].setImageResource(R.drawable.i001);
-            buttons[randomx1][randomy1].setTag(R.id.pair,"set");
 
-            buttons[randomx2][randomy2].setImageResource(R.drawable.i001);
-            buttons[randomx2][randomy2].setTag(R.id.pair,"set");
+            randomMat[i]=(int)(Math.random() * (nrCols*nrRows - 0) + 1) + 0;
+            Log.d("asdf", randomMat[i].toString());
         }
-        if (randomx1==randomx2&&randomy1==randomy2)
-        {
-            Log.d("asdf","asdfsafd");
-            buttons[randomx1][randomy1].setImageResource(R.drawable.i004);
-            buttons[randomx1][randomy1].setTag(R.id.pair,"set");
+        Collections.shuffle(Arrays.asList(randomMat));
 
-            buttons[randomx2][randomy2].setImageResource(R.drawable.i004);
-            buttons[randomx2][randomy2].setTag(R.id.pair,"set");
-        }
+
 
     }
 
-
-
-    private ArrayList<Integer> getRandomx(int nrCols)
-    {
-        //TODO checkn wie ma mit araylists umgeht "Index oout of B"
-        ArrayList<Integer> numbers = new ArrayList<Integer>();
-        Random randomGenerator = new Random();
-        while (numbers.size() < 20) {
-
-            int random = randomGenerator .nextInt(20);
-            if (!numbers.contains(random)) {
-                numbers.add(random);
-            }
-        }
-        return numbers;
-    }
-
-    private ArrayList<Integer> getRandomy(int nrRows)
-    {
-        ArrayList<Integer> numbers = new ArrayList<Integer>();
-        Random randomGenerator = new Random();
-        while (numbers.size() < 20) {
-
-            int random = randomGenerator .nextInt(20);
-            if (!numbers.contains(random)) {
-                numbers.add(random);
-            }
-        }
-        return numbers;
-    }
 
 
 

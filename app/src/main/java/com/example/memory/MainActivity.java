@@ -2,14 +2,11 @@ package com.example.memory;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Point;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -24,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     int nrCols = 6;
     int nrRows = 6;
+    int cardID = 1;
 
     private ImageButton[][] buttons = new ImageButton[nrCols+1][nrRows+1];
 
@@ -37,8 +35,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         generateGrid(nrCols,nrRows);
         field = new Playground();
         field.init(nrCols,nrRows,buttons);
-
-
 
     }
 
@@ -55,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Position p = new Position(i,row);
                 ImageButton button = generateButton(p);
                 buttons[p.x][p.y] = button;
-
                 tr.addView(button);
 
             }
@@ -78,9 +73,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         ImageButton b = new ImageButton(this);
         b.setImageResource(R.drawable.back);
+
         String tag = p.x+","+p.y;
         b.setTag(R.id.position,tag);
+
         b.setTag(R.id.pair,"notpair");
+
+        b.setTag(R.id.cardId,cardID);
+        cardID +=1;
 
         b.setOnClickListener(this);
         return b;
@@ -119,9 +119,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         String tag = view.getTag(R.id.position).toString();
         String tagset = view.getTag(R.id.pair).toString();
+        String cardID = view.getTag(R.id.cardId).toString();
 
-        Snackbar snackbar = Snackbar.make(view, "Card "+tag+" is clicked and is "+tagset, Snackbar.LENGTH_LONG);
 
+        Snackbar snackbar = Snackbar.make(view, "Card "+tag+" is clicked and is "+tagset+" and has number " + cardID, Snackbar.LENGTH_LONG);
         snackbar.show();
 
 
