@@ -3,6 +3,7 @@ package com.example.memory;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,25 +21,67 @@ public class Playground extends AppCompatActivity {
     private int whosOnTurn;
     private int[] score;
 
-    public Playground(int x, int y)
+    public Playground()
     {
-        init(x,y);
+
 
     }
 
 
 
-    public void init(int nrCols, int nrRows)
+    public void init(int nrCols, int nrRows, ImageButton[][] buttons)
     {
 
-        createPairs(nrCols,nrRows);
+        createPairs(nrCols,nrRows, buttons);
 
     }
 
-    private void createPairs(int nrCols, int nrRows)
+    private void createPairs(int nrCols, int nrRows, ImageButton[][] buttons)
     {
 
-        //TODO pärchen setzten
+        /*
+        TODO pärchen setzten
+        NOTE besser wärs mit Tag vom Button zu lösen  !!UMBEDINGT PROBIEREN
+        */
+        int[] randomx = new int[2];
+        int[] randomy = new int[2];
+
+        for (int i = 0; i < randomx.length; i++)
+        {
+            for (int j = 0; j < randomy.length; j++)
+            {
+                randomy[j] = (int) (Math.random() * (nrRows - 1) + 1);
+
+            }
+            randomx[i] = (int) (Math.random() * (nrCols - 1) + 1);
+
+        }
+        if (randomy[0]==randomy[1])
+        {
+            createPairs(nrCols,nrRows,buttons);
+        }else{
+            //funkt aber nit mit ID
+            //buttons[randomx[0]][randomy[0]].setImageResource(R.drawable.i000);
+            //buttons[randomx[1]][randomy[1]].setImageResource(R.drawable.i000);
+
+            //Mit ID probieren
+            ImageButton simpleImageButton = (ImageButton)findViewById();
+            simpleImageButton.setImageResource(R.drawable.i000);
+
+        }
+
+
+
+
+            int posx= (int) (Math.random() * (nrCols - 1) + 1);
+            int posy= (int) (Math.random() * (nrCols - 1) + 1);
+
+
+
+
+
+
+
 
     }
 

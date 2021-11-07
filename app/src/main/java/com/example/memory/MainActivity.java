@@ -22,8 +22,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Playground field;
     private Position previouseCard;
 
-    int nrCols = 3;
-    int nrRows = 2;
+    int nrCols = 6;
+    int nrRows = 6;
 
     private ImageButton[][] buttons = new ImageButton[nrCols+1][nrRows+1];
 
@@ -35,7 +35,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         generateGrid(nrCols,nrRows);
-        field = new Playground(nrCols,nrRows);
+        field = new Playground();
+
+        field.init(nrCols,nrRows,buttons);
+
 
     }
 
