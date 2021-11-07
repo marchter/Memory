@@ -1,18 +1,13 @@
 package com.example.memory;
 
 import android.util.Log;
-import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.snackbar.Snackbar;
-
+import java.util.ArrayList;
 import java.util.Arrays;
-
-import javax.sql.ConnectionPoolDataSource;
+import java.util.Random;
 
 public class Playground extends AppCompatActivity {
 
@@ -20,6 +15,8 @@ public class Playground extends AppCompatActivity {
     private Card[][] cards;
     private int whosOnTurn;
     private int[] score;
+
+
 
     public Playground()
     {
@@ -32,7 +29,12 @@ public class Playground extends AppCompatActivity {
     public void init(int nrCols, int nrRows, ImageButton[][] buttons)
     {
 
-        createPairs(nrCols,nrRows, buttons);
+        for (int i = 0; i <(nrCols*nrRows); i+=2)
+        {
+           createPairs(nrCols+1,nrRows+1,buttons);
+
+        }
+
 
     }
 
@@ -43,47 +45,66 @@ public class Playground extends AppCompatActivity {
         TODO pärchen setzten
         NOTE besser wärs mit Tag vom Button zu lösen  !!UMBEDINGT PROBIEREN
         */
-        int[] randomx = new int[2];
-        int[] randomy = new int[2];
 
-        for (int i = 0; i < randomx.length; i++)
+        int randomx1 = getRandomx(nrCols).get(0);
+        int randomy1 = getRandomy(nrRows).get(0);
+
+        int randomx2 = getRandomx(nrCols).get(1);
+        int randomy2 = getRandomy(nrRows).get(1);
+
+
+        if (buttons[randomx1][randomy1].getTag(R.id.pair).toString()!="set" && buttons[randomx2][randomy2].getTag(R.id.pair).toString()!="set")
         {
-            for (int j = 0; j < randomy.length; j++)
-            {
-                randomy[j] = (int) (Math.random() * (nrRows - 1) + 1);
+            buttons[randomx1][randomy1].setImageResource(R.drawable.i001);
+            buttons[randomx1][randomy1].setTag(R.id.pair,"set");
 
-            }
-            randomx[i] = (int) (Math.random() * (nrCols - 1) + 1);
-
+            buttons[randomx2][randomy2].setImageResource(R.drawable.i001);
+            buttons[randomx2][randomy2].setTag(R.id.pair,"set");
         }
-        if (randomy[0]==randomy[1])
+        if (randomx1==randomx2&&randomy1==randomy2)
         {
-            createPairs(nrCols,nrRows,buttons);
-        }else{
-            //funkt aber nit mit ID
-            //buttons[randomx[0]][randomy[0]].setImageResource(R.drawable.i000);
-            //buttons[randomx[1]][randomy[1]].setImageResource(R.drawable.i000);
+            Log.d("asdf","asdfsafd");
+            buttons[randomx1][randomy1].setImageResource(R.drawable.i004);
+            buttons[randomx1][randomy1].setTag(R.id.pair,"set");
 
-            //Mit ID probieren
-            ImageButton simpleImageButton = (ImageButton)findViewById();
-            simpleImageButton.setImageResource(R.drawable.i000);
-
+            buttons[randomx2][randomy2].setImageResource(R.drawable.i004);
+            buttons[randomx2][randomy2].setTag(R.id.pair,"set");
         }
-
-
-
-
-            int posx= (int) (Math.random() * (nrCols - 1) + 1);
-            int posy= (int) (Math.random() * (nrCols - 1) + 1);
-
-
-
-
-
-
-
 
     }
+
+
+
+    private ArrayList<Integer> getRandomx(int nrCols)
+    {
+        //TODO checkn wie ma mit araylists umgeht "Index oout of B"
+        ArrayList<Integer> numbers = new ArrayList<Integer>();
+        Random randomGenerator = new Random();
+        while (numbers.size() < 20) {
+
+            int random = randomGenerator .nextInt(20);
+            if (!numbers.contains(random)) {
+                numbers.add(random);
+            }
+        }
+        return numbers;
+    }
+
+    private ArrayList<Integer> getRandomy(int nrRows)
+    {
+        ArrayList<Integer> numbers = new ArrayList<Integer>();
+        Random randomGenerator = new Random();
+        while (numbers.size() < 20) {
+
+            int random = randomGenerator .nextInt(20);
+            if (!numbers.contains(random)) {
+                numbers.add(random);
+            }
+        }
+        return numbers;
+    }
+
+
 
 
 

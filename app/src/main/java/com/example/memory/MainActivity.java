@@ -36,8 +36,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         generateGrid(nrCols,nrRows);
         field = new Playground();
-
         field.init(nrCols,nrRows,buttons);
+
 
 
     }
@@ -79,7 +79,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ImageButton b = new ImageButton(this);
         b.setImageResource(R.drawable.back);
         String tag = p.x+","+p.y;
-        b.setTag(tag);
+        b.setTag(R.id.position,tag);
+        b.setTag(R.id.pair,"notpair");
+
         b.setOnClickListener(this);
         return b;
     }
@@ -115,10 +117,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view)
     {
 
-        String tag = (String) view.getTag();
-        Snackbar snackbar = Snackbar.make(view, "Card "+tag+" is clicked", Snackbar.LENGTH_LONG);
+        String tag = view.getTag(R.id.position).toString();
+        String tagset = view.getTag(R.id.pair).toString();
+
+        Snackbar snackbar = Snackbar.make(view, "Card "+tag+" is clicked and is "+tagset, Snackbar.LENGTH_LONG);
 
         snackbar.show();
+
+
 
     }
 
