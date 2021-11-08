@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="loading_images">
+        <item>@drawable/i000</item>
+        <item>@drawable/i001</item>
+        <item>@drawable/i002</item>
+        <item>@drawable/i003</item>
+        <item>@drawable/i004</item>
+        <item>@drawable/i005</item>
+        <item>@drawable/i006</item>
+        <item>@drawable/i007</item>
+        <item>@drawable/i008</item>
+        <item>@drawable/i009</item>
+        <item>@drawable/i010</item>
+        <item>@drawable/i011</item>
+        <item>@drawable/i012</item>
+        <item>@drawable/i013</item>
+        <item>@drawable/i014</item>
+        <item>@drawable/i015</item>
+        <item>@drawable/i016</item>
+        <item>@drawable/i017</item>
+        <item>@drawable/i018</item>
+        <item>@drawable/i019</item>
+        <item>@drawable/i020</item>
+        <item>@drawable/i021</item>
+        <item>@drawable/i022</item>
+        <item>@drawable/i023</item>
+        <item>@drawable/i024</item>
+        <item>@drawable/i025</item>
+        <item>@drawable/i026</item>
+        <item>@drawable/i027</item>
+        <item>@drawable/i028</item>
+        <item>@drawable/i029</item>
+        <item>@drawable/i030</item>
+        <item>@drawable/i031</item>
+    </array>
+
+
+</resources>
