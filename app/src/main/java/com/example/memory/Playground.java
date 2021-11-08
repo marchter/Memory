@@ -1,16 +1,13 @@
 package com.example.memory;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
-import androidx.annotation.ContentView;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Random;
 
 public class Playground extends AppCompatActivity {
 
@@ -38,6 +35,7 @@ public class Playground extends AppCompatActivity {
 
     }
 
+    @SuppressLint("ResourceType")
     private void createPairs(int nrCols, int nrRows, ImageButton[][] buttons)
     {
 
@@ -45,24 +43,37 @@ public class Playground extends AppCompatActivity {
         TODO pärchen setzten
         */
 
+        int id[] = randomMat(nrCols,nrRows);
+        int ii = 0;
 
-
-        Integer[] randomMat = new Integer[nrCols*nrRows];
-        for (int i = 0; i < nrCols*nrRows; i++)
+        for(int i = 1; i <= nrRows; i++)
         {
+            for (int j = 1; j <= nrCols; j++)
+            {
+                ImageButton b = buttons[j][i];
+            //Funkt nit
+                b.setTag(R.id.cardId,id[ii]);
+                ii+=1;
 
-            randomMat[i]=(int)(Math.random() * (nrCols*nrRows - 0) + 1) + 0;
-            Log.d("asdf", randomMat[i].toString());
+            }
         }
-        Collections.shuffle(Arrays.asList(randomMat));
-
 
 
     }
 
 
+private int[] randomMat (int nrCols, int nrRows)
+{
+    int[] randomMat = new int[(nrCols*nrRows)];
+    for (int i = 0; i < nrCols*nrRows; i++)
+    {
 
+        randomMat[i]=(int)(Math.random() * (nrCols*nrRows - 0) + 1) + 0;
+    }
+    Collections.shuffle(Arrays.asList(randomMat));
+    return randomMat;
 
+}
 
 
     public Card play(Position pos)

@@ -19,8 +19,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Playground field;
     private Position previouseCard;
 
-    int nrCols = 6;
-    int nrRows = 6;
+    int nrCols = 3;
+    int nrRows = 2;
     int cardID = 1;
 
     private ImageButton[][] buttons = new ImageButton[nrCols+1][nrRows+1];
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         b.setTag(R.id.pair,"notpair");
 
-        b.setTag(R.id.cardId,cardID);
+        b.setId(cardID);
         cardID +=1;
 
         b.setOnClickListener(this);
@@ -119,10 +119,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         String tag = view.getTag(R.id.position).toString();
         String tagset = view.getTag(R.id.pair).toString();
-        String cardID = view.getTag(R.id.cardId).toString();
+        int cardID = view.getId();
+        String randomID = view.getTag(R.id.cardId).toString();
 
 
-        Snackbar snackbar = Snackbar.make(view, "Card "+tag+" is clicked and is "+tagset+" and has number " + cardID, Snackbar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(view, "Card "+tag+" is clicked and is "+tagset+" and has number " + cardID + " and has randomNR " + randomID, Snackbar.LENGTH_LONG);
         snackbar.show();
 
 
