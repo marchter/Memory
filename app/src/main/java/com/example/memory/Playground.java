@@ -52,6 +52,7 @@ public class Playground extends AppCompatActivity {
             {
                 ImageButton b = buttons[j][i];
             //Funkt nit
+
                 b.setTag(R.id.cardId,id[ii]);
                 ii+=1;
 
