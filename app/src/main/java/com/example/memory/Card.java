@@ -3,8 +3,7 @@ package com.example.memory;
 public class Card {
 
     private boolean visible;
-    private int value;
-
+    private int value; //card nummer zu bild verbinden
 
 
     public boolean isVisible() {

@@ -28,6 +28,7 @@ public class Playground extends AppCompatActivity {
     {
 
 
+
     }
 
 
@@ -41,7 +42,6 @@ public class Playground extends AppCompatActivity {
 
     }
 
-    //asdfasdfasf
     private void createPairs(int nrCols, int nrRows, ImageButton[][] buttons)
     {
 
@@ -68,33 +68,6 @@ public class Playground extends AppCompatActivity {
 
 
 
-
-
-    private static int[] getPicsArray() {
-        int[] c = new int[20];
-
-        c[0] = R.drawable.i000;
-        c[1] = R.drawable.i001;
-        c[2] = R.drawable.i002;
-        c[3] = R.drawable.i003;
-        c[4] = R.drawable.i004;
-        c[5] = R.drawable.i005;
-        c[6] = R.drawable.i006;
-        c[7] = R.drawable.i007;
-        c[8] = R.drawable.i008;
-        c[9] = R.drawable.i009;
-        c[10] = R.drawable.i010;
-        c[11] = R.drawable.i011;
-        c[12] = R.drawable.i012;
-        c[13] = R.drawable.i013;
-        c[14] = R.drawable.i014;
-        c[15] = R.drawable.i015;
-        c[16] = R.drawable.i016;
-        c[17] = R.drawable.i017;
-        c[18] = R.drawable.i018;
-        c[19] = R.drawable.i019;
-        return c;
-    }
 
     private void createPairsID(int nrCols, int nrRows, ImageButton[][] buttons)
     {
@@ -133,10 +106,13 @@ public class Playground extends AppCompatActivity {
     }
 
 
-    public void play(Position pos, ImageButton[][] buttons)
+    public Card play(Position pos, ImageButton[][] buttons)
     {
         //TODO fixen dass des mit Card geht!!(Lehrer fragen wie)
-        buttons[pos.x][pos.y].setImageResource(getPicsArray()[(int) buttons[pos.x][pos.y].getTag(R.id.cardId)]);
+        //buttons[pos.x][pos.y].setImageResource(getPicsArray()[(int) buttons[pos.x][pos.y].getTag(R.id.cardId)]);
+        Card c = new Card();
+        c.setValue(MainActivity.getPicsArray()[(int) buttons[pos.x][pos.y].getTag(R.id.cardId)]);
+        return c;
     }
 
     public boolean finished()
@@ -193,9 +169,14 @@ public class Playground extends AppCompatActivity {
 
     }
 
-    public Card getCard()
+    public Card getCard(Position pos)
     {
-        return null;
+
+        Card c = new Card();
+
+
+
+        return c;
 
     }
 
