@@ -14,7 +14,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-
+//asfd
     private static int[] pics;
     private Playground field;
     private Position previouseCard;
