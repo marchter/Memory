@@ -15,7 +15,7 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private static int[] pics;
-    private Position previouseCard;
+    private Position previouseCard = new Position(-1,-1);
 
     int nrCols = 4;
     int nrRows = 4;
@@ -26,18 +26,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         field.init(nrCols,nrRows);
-        generateGrid(nrCols,nrRows);
+        generateGrid();
 
     }
 
 
-    private TableRow generateAndAddRows(int row,int nrCols)
+    private TableRow generateAndAddRows(int row)
     {
 
         TableRow.LayoutParams tableRowParams= new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.MATCH_PARENT);
@@ -55,13 +56,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return tr;
     }
 
-    private void generateGrid(int nrCols, int nrRows)
+    private void generateGrid()
     {
         TableLayout playField = findViewById(R.id.cardTable);
 
         for (int i = 1; i <= nrRows; i++)
         {
-            TableRow tr = generateAndAddRows(i,nrCols);
+            TableRow tr = generateAndAddRows(i);
             playField.addView(tr);
         }
     }
@@ -78,8 +79,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         b.setTag(R.id.pair,"notpair");
 
         b.setId(cardID);
-//        field.getCard(p).setValue(cardID);
         cardID +=1;
+
+        b.setTag(R.id.randomCardId,field.getCard(p).getValue());
+
 
         b.setOnClickListener(this);
         return b;
@@ -113,6 +116,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    private void setImage(Position pos)
+    {
+        buttons[pos.x][pos.y].setImageResource(getPicsArray()[field.getCard(pos).getValue()]);
+
+    }
+
     public void onClick(View view)
     {
 
@@ -125,15 +134,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String[] poss = view.getTag(R.id.position).toString().split(",");
         Position pos = new Position( Integer.parseInt(poss[0]) , Integer.parseInt(poss[1]));
 
-        //    field.play(pos, buttons);
+        //TODO: machn dass 2 paare aufgedeckt bleiben
+        if (previouseCard.x==-1)
+        {
+            previouseCard=pos;
+            field.getCard(previouseCard).setVisible(false);
+        }
 
 
+        if (buttons[pos.x][pos.y].getTag(R.id.randomCardId) == buttons[previouseCard.x][previouseCard.y].getTag(R.id.randomCardId)){
+            field.getCard(pos).setVisible(true);
+            field.getCard(previouseCard).setVisible(true);
+            field.isPair(pos,previouseCard);
+        }else {
+            closeCards(pos,previouseCard);
+        }
+        previouseCard=pos;
+        if (field.getCard(pos).isVisible())setImage(pos);
 
         //o Snackbar snackbar = Snackbar.make(view, "Card "+tag+" is clicked and is "+tagset+" and has number " + cardID + " and has randomNR " + randomID, Snackbar.LENGTH_LONG);
-        Snackbar snackbar = Snackbar.make(view,Integer.toString(field.getCard(pos).getValue()), Snackbar.LENGTH_LONG);
+       Snackbar snackbar = Snackbar.make(view,"Card "+Integer.toString(field.getCard(pos).getValue())+" is pressed and is visible "+field.getCard(pos).isVisible(), Snackbar.LENGTH_LONG);
 
         snackbar.show();
-
 
 
     }
