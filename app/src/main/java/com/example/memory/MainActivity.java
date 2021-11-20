@@ -15,7 +15,6 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private static int[] pics;
-    private Playground field;
     private Position previouseCard;
 
     int nrCols = 4;
@@ -23,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int cardID = 1;
 
     private ImageButton[][] buttons = new ImageButton[nrCols+1][nrRows+1];
+    public Playground field = new Playground();
 
 
 
@@ -31,9 +31,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        field.init(nrCols,nrRows);
         generateGrid(nrCols,nrRows);
-        field = new Playground();
-        field.init(nrCols,nrRows,buttons);
 
     }
 
@@ -79,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         b.setTag(R.id.pair,"notpair");
 
         b.setId(cardID);
+//        field.getCard(p).setValue(cardID);
         cardID +=1;
 
         b.setOnClickListener(this);
@@ -116,17 +116,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view)
     {
 
-        String tag = view.getTag(R.id.position).toString();
-        String tagset = view.getTag(R.id.pair).toString();
-        int cardID = view.getId();
-        String randomID = view.getTag(R.id.cardId).toString();
+    //o    String tag = view.getTag(R.id.position).toString();
+    // o   String tagset = view.getTag(R.id.pair).toString();
+    //o    int cardID = view.getId();
+    //O    String randomID = view.getTag(R.id.cardId).toString();
 
 
         String[] poss = view.getTag(R.id.position).toString().split(",");
         Position pos = new Position( Integer.parseInt(poss[0]) , Integer.parseInt(poss[1]));
-        field.play(pos, buttons);
 
-        Snackbar snackbar = Snackbar.make(view, "Card "+tag+" is clicked and is "+tagset+" and has number " + cardID + " and has randomNR " + randomID, Snackbar.LENGTH_LONG);
+        //    field.play(pos, buttons);
+
+
+
+        //o Snackbar snackbar = Snackbar.make(view, "Card "+tag+" is clicked and is "+tagset+" and has number " + cardID + " and has randomNR " + randomID, Snackbar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(view,Integer.toString(field.getCard(pos).getValue()), Snackbar.LENGTH_LONG);
+
         snackbar.show();
 
 

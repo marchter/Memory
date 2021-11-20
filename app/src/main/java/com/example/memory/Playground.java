@@ -1,24 +1,16 @@
 package com.example.memory;
 
-import android.annotation.SuppressLint;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LevelListDrawable;
-import android.util.Log;
-import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageSwitcher;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Collections;
 
 public class Playground extends AppCompatActivity {
 
 
-    private Card[][] cards;
+    public Card[][] cards;
     private int whosOnTurn;
     private int[] score;
 
@@ -33,28 +25,44 @@ public class Playground extends AppCompatActivity {
 
 
 
-    public void init(int nrCols, int nrRows, ImageButton[][] buttons)
+    public void init(int nrCols, int nrRows)
     {
+        cards = new Card[nrCols+1][nrRows+1];
 
-           createPairs(nrCols,nrRows,buttons);
+        //o createPairs(nrCols,nrRows,buttons);
+         //  createPairsID(nrCols,nrRows);
 
+        int cnt = 1;
+        for(int i = 0; i < nrRows; i++)
+        {
+            for(int j = 0; j < nrCols; j++)
+            {
+                    cards[j][i] = new Card();
+                    cards[j][i].setValue(cnt);
+                    cnt++;
+            }
+        }
 
 
     }
 
-    private void createPairs(int nrCols, int nrRows, ImageButton[][] buttons)
+
+
+
+    private void createPairs(int nrCols, int nrRows)
     {
 
-        createPairsID(nrCols,nrRows,buttons);
+        createPairsID(nrCols,nrRows);
         for (int i = 1; i <= nrRows; i++)
         {
             for (int j = 1; j <= nrCols; j++)
             {
                 int cardId = 0;
                 for (int ii = 1; ii <= nrCols*nrRows; ii+=2) {
-                    if ((buttons[j][i].getTag(R.id.cardId)).equals(ii) || (buttons[j][i].getTag(R.id.cardId)).equals(ii+1))
-                    {
-                        buttons[j][i].setTag(R.id.cardId,cardId);
+                    //o if ((buttons[j][i].getTag(R.id.cardId)).equals(ii) || (buttons[j][i].getTag(R.id.cardId)).equals(ii+1))
+                    if (cards[j][i].getValue()==ii || cards[j][i].getValue()==ii+1){
+                        //o buttons[j][i].setTag(R.id.cardId,cardId);
+                        cards[j][i].setValue(cardId);
                     }
                 cardId++;
                 }
@@ -69,19 +77,23 @@ public class Playground extends AppCompatActivity {
 
 
 
-    private void createPairsID(int nrCols, int nrRows, ImageButton[][] buttons)
+    private void createPairsID(int nrCols, int nrRows)
     {
 
         int ii=0;
-
         Integer[] id = randomMat(nrCols, nrRows);
         for (int i = 1; i <= nrRows; i++)
         {
-
             for (int j = 1; j <= nrCols; j++)
             {
-                ImageButton b = buttons[j][i];
-                b.setTag(R.id.cardId,id[ii]);
+                // oImageButton b = buttons[j][i];
+                //o b.setTag(R.id.cardId,id[ii]);
+                try {
+                    cards[j][i].setValue(id[ii]);
+
+                }catch (NullPointerException e){
+                    continue;
+                }
                 ii++;
             }
         }
@@ -168,11 +180,7 @@ public class Playground extends AppCompatActivity {
     public Card getCard(Position pos)
     {
 
-        Card c = new Card();
-
-
-
-        return c;
+        return cards[pos.x][pos.y];
 
     }
 
