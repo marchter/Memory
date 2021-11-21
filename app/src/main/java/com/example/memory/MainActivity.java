@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -15,11 +16,13 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private static int[] pics;
-    private Position previouseCard = new Position(-1,-1);
+    private Position previouseCard;
 
     int nrCols = 4;
     int nrRows = 4;
     int cardID = 1;
+    int score1 = 0;
+    int score2 = 0;
 
     private ImageButton[][] buttons = new ImageButton[nrCols+1][nrRows+1];
     public Playground field = new Playground();
@@ -31,7 +34,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        field.setNrPairs(0);
+        field.setWhosOnTurn(1);
         field.init(nrCols,nrRows);
         generateGrid();
 
@@ -44,15 +48,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TableRow.LayoutParams tableRowParams= new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.MATCH_PARENT);
         TableRow tr = new TableRow(this);
 
-            for (int i = 1; i <= nrCols; i++) {
+        for (int i = 1; i <= nrCols; i++) {
 
-                tr.setLayoutParams(tableRowParams);
-                Position p = new Position(i,row);
-                ImageButton button = generateButton(p);
-                buttons[p.x][p.y] = button;
-                tr.addView(button);
+            tr.setLayoutParams(tableRowParams);
+            Position p = new Position(i,row);
+            ImageButton button = generateButton(p);
+            buttons[p.x][p.y] = button;
+            tr.addView(button);
 
-            }
+        }
         return tr;
     }
 
@@ -124,39 +128,67 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void onClick(View view)
     {
+        if (!field.finished()) {
 
-    //o    String tag = view.getTag(R.id.position).toString();
-    // o   String tagset = view.getTag(R.id.pair).toString();
-    //o    int cardID = view.getId();
-    //O    String randomID = view.getTag(R.id.cardId).toString();
+            String[] poss = view.getTag(R.id.position).toString().split(",");
+            Position pos = new Position(Integer.parseInt(poss[0]), Integer.parseInt(poss[1]));
+            TextView feedback = findViewById(R.id.whosOnTurn);
+            TextView feedbackPairs1 = findViewById(R.id.pairs1);
+            TextView feedbackPairs2 = findViewById(R.id.pairs2);
 
 
-        String[] poss = view.getTag(R.id.position).toString().split(",");
-        Position pos = new Position( Integer.parseInt(poss[0]) , Integer.parseInt(poss[1]));
+            if (previouseCard == null) {
+                previouseCard = pos;
+                setImage(previouseCard);
 
-        //TODO: machn dass 2 paare aufgedeckt bleiben
-        if (previouseCard.x==-1)
-        {
-            previouseCard=pos;
-            field.getCard(previouseCard).setVisible(false);
+            } else {
+                setImage(pos);
+
+                if (field.isPair(pos, previouseCard)) {
+                    setImage(previouseCard);
+                    field.getCard(pos).setVisible(true);
+                    field.getCard(previouseCard).setVisible(true);
+                    field.setNrPairs(field.getNrPairs() + 1);
+
+                    if (field.getWhosOnTurn()==1){
+                        score1+=1;
+                        field.setScore(0,score1);
+                        feedbackPairs1.setText("Player 1 found "+ field.getScore(0)+ " pairs!");
+
+                    }else{
+                        score2+=1;
+                        field.setScore(1,score2);
+                        feedbackPairs2.setText("Player 2 found "+ field.getScore(1)+" pairs!");
+
+
+                    }
+
+                } else {
+
+                    closeCards(pos, previouseCard);
+                    if (field.getWhosOnTurn() == 1){
+                        field.setWhosOnTurn(2);
+                    }else{
+                        field.setWhosOnTurn(1);
+                    }
+                    feedback.setText("Player " + field.getWhosOnTurn() + " make a Move!");
+                }
+                previouseCard = null;
+                Snackbar snackbar = Snackbar.make(view, "Player " + field.getWhosOnTurn() + " next move", Snackbar.LENGTH_LONG);
+                snackbar.show();
+
+
+
+                if (field.finished()){
+                    snackbar = Snackbar.make(view,"GAME FINISHED", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+
+            }
+
+
+
         }
-
-
-        if (buttons[pos.x][pos.y].getTag(R.id.randomCardId) == buttons[previouseCard.x][previouseCard.y].getTag(R.id.randomCardId)){
-            field.getCard(pos).setVisible(true);
-            field.getCard(previouseCard).setVisible(true);
-            field.isPair(pos,previouseCard);
-        }else {
-            closeCards(pos,previouseCard);
-        }
-        previouseCard=pos;
-        if (field.getCard(pos).isVisible())setImage(pos);
-
-        //o Snackbar snackbar = Snackbar.make(view, "Card "+tag+" is clicked and is "+tagset+" and has number " + cardID + " and has randomNR " + randomID, Snackbar.LENGTH_LONG);
-       Snackbar snackbar = Snackbar.make(view,"Card "+Integer.toString(field.getCard(pos).getValue())+" is pressed and is visible "+field.getCard(pos).isVisible(), Snackbar.LENGTH_LONG);
-
-        snackbar.show();
-
 
     }
 
@@ -177,4 +209,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Timer timer = new Timer();
         timer.schedule(new CloseTask(),1000);
     }
+
 }

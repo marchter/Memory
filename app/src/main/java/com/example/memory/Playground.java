@@ -1,5 +1,6 @@
 package com.example.memory;
 
+import android.util.Log;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,9 +13,9 @@ public class Playground extends AppCompatActivity {
 
     public Card[][] cards;
     private int whosOnTurn;
-    private int[] score;
+    private int[] score = new int[3];
     private int nrRows;
-
+    private int nrCols;
 
 
     public Playground()
@@ -30,9 +31,7 @@ public class Playground extends AppCompatActivity {
     {
         cards = new Card[nrCols+1][nrRows+1];
         this.nrRows=nrRows;
-
-        //o createPairs(nrCols,nrRows,buttons);
-         //  createPairsID(nrCols,nrRows);
+        this.nrCols=nrCols;
 
         int cnt = 1;
         for(int i = 1; i <= nrRows; i++)
@@ -64,10 +63,9 @@ public class Playground extends AppCompatActivity {
             {
                 int cardId = 0;
                 for (int ii = 1; ii <= nrCols*nrRows; ii+=2) {
-                    //o if ((buttons[j][i].getTag(R.id.cardId)).equals(ii) || (buttons[j][i].getTag(R.id.cardId)).equals(ii+1))
                     if (cards[j][i].getValue()==ii || cards[j][i].getValue()==ii+1){
-                        //o buttons[j][i].setTag(R.id.cardId,cardId);
                         cards[j][i].setValue(cardId);
+                        Log.d("asdf",String.valueOf(cards[j][i].getValue()));
                     }
                 cardId++;
                 }
@@ -91,14 +89,7 @@ public class Playground extends AppCompatActivity {
         {
             for (int j = 1; j <= nrCols; j++)
             {
-                // oImageButton b = buttons[j][i];
-                //o b.setTag(R.id.cardId,id[ii]);
-                try {
-                    cards[j][i].setValue(id[ii]);
-
-                }catch (NullPointerException e){
-                    continue;
-                }
+                cards[j][i].setValue(id[ii]);
                 ii++;
             }
         }
@@ -123,63 +114,17 @@ public class Playground extends AppCompatActivity {
     }
 
 
-    public Card play(Position pos)
-    {
-        Card c = cards[pos.x][pos.y];
-        c.setVisible(true);
-        return c;
-    }
-
     public boolean finished()
     {
-        for (int i = 0; i < nrRows; i++) {
-            for (Card[] card: cards)
-            {
-                if (!card[i].isVisible()){
+        for (int i = 1; i <= nrRows; i++) {
+            for (int j = 1; j <= nrCols; j++) {
+                if (!cards[j][i].isVisible()){
                     return false;
                 }
             }
         }
         return true;
     }
-
-    @Override
-    public String toString() {
-     return "";
-    }
-
-    public Card[][] getCards() {
-        return cards;
-    }
-
-    public void setCards(Card[][] cards) {
-        this.cards = cards;
-    }
-
-    public int getWhosOnTurn() {
-        return whosOnTurn;
-    }
-
-    public void setWhosOnTurn(int whosOnTurn) {
-        this.whosOnTurn = whosOnTurn;
-    }
-
-    public int[] getScore() {
-        return score;
-    }
-
-    public void setScore(int[] score) {
-        this.score = score;
-    }
-
-    public int getGetNrPairs() {
-        return getNrPairs;
-    }
-
-    public void setGetNrPairs(int getNrPairs) {
-        this.getNrPairs = getNrPairs;
-    }
-
 
     public boolean isPair(Position pos1, Position pos2)
     {
@@ -189,6 +134,33 @@ public class Playground extends AppCompatActivity {
         }
         return false;
     }
+
+
+
+    public int getWhosOnTurn() {
+        return whosOnTurn;
+    }
+
+    public void setWhosOnTurn(int whosOnTurn) {
+        this.whosOnTurn = whosOnTurn;
+    }
+
+    public int getScore(int player) {
+        return score[player];
+    }
+
+    public void setScore(int player, int score) {
+        this.score[player] = score;
+    }
+
+    public int getNrPairs() {
+        return getNrPairs;
+    }
+
+    public void setNrPairs(int getNrPairs) {
+        this.getNrPairs = getNrPairs;
+    }
+
 
 
     public Card getCard(Position pos)
