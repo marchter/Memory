@@ -80,8 +80,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String tag = p.x+","+p.y;
         b.setTag(R.id.position,tag);
 
-        b.setTag(R.id.pair,"notpair");
-
         b.setId(cardID);
         cardID +=1;
 
